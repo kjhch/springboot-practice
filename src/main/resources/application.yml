@@ -1,0 +1,30 @@
+spring:
+  profiles:
+    active: dev
+  http:
+    encoding:
+      charset: UTF-8
+
+server:
+  servlet:
+    context-path: /api/sbp/v1/
+
+custom:
+  projectName: springboot-practice
+  author:
+    name: "张三"
+    age: 18
+    birthDay: 2019/5/18
+    male: true
+
+logging:
+  file:
+
+---
+spring:
+  profiles: dev
+
+custom:
+  author:
+      name: "hch"
+      age: 22
