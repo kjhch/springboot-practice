@@ -1,29 +1,43 @@
 package com.hch.controller;
 
-import com.hch.api.ErrorEnum;
+import com.hch.pojo.ErrorEnum;
 import com.hch.config.CustomProperties;
-import com.hch.api.response.CommonResponse;
+import com.hch.pojo.response.CommonResponse;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 public class FileController {
     @Autowired
     private CustomProperties customProperties;
-
-    @RequestMapping(value = "hello", method = RequestMethod.POST)
-    public CommonResponse<Object> hello() {
-        return new CommonResponse<>();
-    }
+    // @Autowired
+    // private SessionFactory sessionFactory;
+    // @Autowired
+    // private DataSource dataSource;
+    //
+    // @RequestMapping(value = "hello", method = RequestMethod.POST)
+    // public CommonResponse<Object> hello() {
+    //     // try (Session session = sessionFactory.openSession()) {
+    //     //     log.info("sessionFactory:{}, dataSource:{}", sessionFactory, dataSource);
+    //     //     List result = session.createNativeQuery("select * from tb_user;").getResultList();
+    //     //     log.info("result: {}", result);
+    //     // }
+    //     Session session = sessionFactory.openSession();
+    //     Session currentSession = sessionFactory.getCurrentSession();
+    //     log.info("sessionFactory:{}, dataSource:{}", sessionFactory, dataSource);
+    //     log.info("getCurrentSession:{}, openSession:{}",currentSession,session);
+    //     currentSession.createNativeQuery("select * from tb_user;").getResultList();
+    //     // session.createNativeQuery("select * from tb_user;").getResultList();  // 未关闭session会造成连接泄漏
+    //     return new CommonResponse<>();
+    // }
 
     @ApiOperation("FILE")
     @RequestMapping(value = "/file/upload", method = RequestMethod.POST)
@@ -47,4 +61,8 @@ public class FileController {
         }
         return response;
     }
+
+    // @ApiOperation("download file")
+    // @GetMapping("file/download")
+    // public
 }

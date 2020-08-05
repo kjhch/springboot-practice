@@ -1,0 +1,44 @@
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+  mvc:
+    servlet:
+      load-on-startup: 1
+  datasource:
+    url: jdbc:MySQL://localhost:3306/demo?characterEncoding=utf8&autoReconnect=true&&useSSL=false&&allowPublicKeyRetrieval=True
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 1
+      minimum-idle: 0
+      connection-timeout: 5000
+      idle-timeout: 5000
+#    type: com.alibaba.druid.pool.DruidDataSource
+server:
+  servlet:
+    context-path: /api/sbp/v1/
+#  tomcat:
+#    max-threads: 1
+#    accept-count: 1
+#    max-connections: 1
+#    min-spare-threads: 1
+#  connection-timeout: 5000
+
+custom:
+  projectName: springboot-practice
+  author:
+    name: "张三"
+    age: 18
+    birthDay: 2019/5/18
+    male: true
+
+---
+spring:
+  profiles: dev
+
+custom:
+  author:
+    name: "hch"
+    age: 22

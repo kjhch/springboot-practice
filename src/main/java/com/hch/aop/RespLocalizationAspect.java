@@ -1,7 +1,7 @@
 package com.hch.aop;
 
-import com.hch.api.ErrorEnum;
-import com.hch.api.response.CommonResponse;
+import com.hch.pojo.ErrorEnum;
+import com.hch.pojo.response.CommonResponse;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Order(100)
 public class RespLocalizationAspect {
-    @Pointcut("execution(public com.hch.api.response.CommonResponse+ com.hch.controller.*.*(..))")
+    @Pointcut("execution(public com.hch.pojo.response.CommonResponse+ com.hch.controller.*.*(..))")
     public void commonRespController() {
     }
 

@@ -1,0 +1,3 @@
+# spring的启动有如下几个生命周期：starting environmentPrepared contextPrepared contextLoaded started running failed
+# 测试用spi的方式将starting的自定义监听器注册到spring中
+org.springframework.context.ApplicationListener=com.hch.listener.MyListener

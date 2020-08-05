@@ -1,20 +1,22 @@
-package com.hch.api.response;
+package com.hch.pojo.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hch.api.ErrorEnum;
+import com.hch.pojo.ErrorEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 @Getter
 @Setter
 @Accessors(chain = true)
 @ToString
 @NoArgsConstructor
+@XmlRootElement(name = "resp") // 使用Accept:application/xml时，response会自动转为xml格式
 public class CommonResponse<T> {
-    private Integer code;
+    private String code;
     private String message;
     private T data;
 

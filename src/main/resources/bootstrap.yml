@@ -1,0 +1,5 @@
+# 该配置文件先于application.yml读取，通常用于选择profile。
+# 例如下面的配置，spring会去读取环境变量SPRING_PROFILE，然后激活该profile，如果没有该环境变量则使用默认的application.yml
+spring:
+  profiles:
+    active: ${SPRING_PROFILE:default}
