@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationListener;
  * @author hch
  * @since 2020/7/20
  */
-public class MyListener implements ApplicationListener<ApplicationStartingEvent> {
+public class MyApplicationListener implements ApplicationListener<ApplicationStartingEvent> {
 
     @Override
     public void onApplicationEvent(ApplicationStartingEvent event) {

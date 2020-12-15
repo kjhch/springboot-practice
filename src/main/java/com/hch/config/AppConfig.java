@@ -1,6 +1,8 @@
 package com.hch.config;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
@@ -31,6 +33,8 @@ import javax.sql.DataSource;
 @EnableSwagger2
 @EnableConfigurationProperties(CustomProperties.class)
 @ImportResource(locations = "classpath:application-context.xml")
+@MapperScan("com.hch.dao")  // 扫描标注了Mapper注解的类
+@ServletComponentScan("com.hch.controller")  // 扫描标注了WebServlet注解的类
 public class AppConfig {
 
     @Bean

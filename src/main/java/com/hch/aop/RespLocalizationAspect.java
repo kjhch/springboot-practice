@@ -17,14 +17,14 @@ public class RespLocalizationAspect {
     public void commonRespController() {
     }
 
-    // ------------advise-------------
+    /* ------------advice------------- */
 
     @Around("commonRespController()")
-    public CommonResponse localizeResp(ProceedingJoinPoint joinPoint) throws Throwable {
+    public CommonResponse checkRespCode(ProceedingJoinPoint joinPoint) throws Throwable {
         CommonResponse response = (CommonResponse) joinPoint.proceed();
         if (response.getCode() == null) {
             response.setCode(ErrorEnum.UNKNOWN_ERROR.getCode());
-            response.setMessage(ErrorEnum.UNKNOWN_ERROR.getLocalMessage());
+            response.setMessage(ErrorEnum.UNKNOWN_ERROR.getLocalizedMessage());
         }
         return response;
     }

@@ -22,7 +22,7 @@ public enum ErrorEnum {
         this.zhMessage = zhMessage;
     }
 
-    public String getLocalMessage() {
+    public String getLocalizedMessage() {
         Locale requestLocale = LocaleContextHolder.getLocale();
         // System.out.println(requestLocale);
         if (requestLocale.equals(Locale.CHINA)) {
