@@ -5,16 +5,16 @@ spring:
   mvc:
     servlet:
       load-on-startup: 1
-  datasource:
-    url: jdbc:MySQL://hch-cloud:3306/test?characterEncoding=utf8&autoReconnect=true&&useSSL=false&&allowPublicKeyRetrieval=True
-    username: root
-    password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      maximum-pool-size: 10
-      minimum-idle: 1
-      connection-timeout: 5000
-      idle-timeout: 5000
+#  datasource:
+#    url: jdbc:MySQL://hch-cloud:3306/test?characterEncoding=utf8&autoReconnect=true&&useSSL=false&&allowPublicKeyRetrieval=True
+#    username: root
+#    password: root
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    hikari:
+#      maximum-pool-size: 10
+#      minimum-idle: 1
+#      connection-timeout: 5000
+#      idle-timeout: 5000
 #    type: com.alibaba.druid.pool.DruidDataSource
 
 mybatis:
@@ -25,8 +25,8 @@ mybatis:
 server:
   servlet:
     context-path: /api/sbp/v1/
-#  tomcat:
-#    max-threads: 1
+  tomcat:
+    max-threads: 32
 #    accept-count: 1
 #    max-connections: 1
 #    min-spare-threads: 1

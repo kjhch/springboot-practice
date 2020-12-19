@@ -37,7 +37,7 @@ public class HelloController {
     @ResponseBody  // 该注解表示方法所返回的对象即为返回体，而不是视图名
     public CommonResponse<String> hello(@RequestParam(value = "name", required = false) String name) {
         name = Optional.ofNullable(name).orElse(this.name);
-        log.info("get hello request, name: " + name);
+        // log.info("get hello request, name: " + name);
         CommonResponse<String> response = new CommonResponse<>(ErrorEnum.SUCCESS);
         response.setData("hello, " + name);
         return response;
