@@ -66,7 +66,7 @@ public class HelloController {
     @ResponseBody
     public CommonResponse<String> sleep() throws InterruptedException {
         log.info("sleep begin");
-        TimeUnit.SECONDS.sleep(30);
+        TimeUnit.MILLISECONDS.sleep(300);
         log.info("sleep end");
         return new CommonResponse<>();
     }

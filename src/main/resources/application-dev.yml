@@ -27,8 +27,8 @@ server:
     context-path: /api/sbp/v1/
   tomcat:
     max-threads: 32
-#    accept-count: 1
-#    max-connections: 1
+    accept-count: 1
+    max-connections: 8000
 #    min-spare-threads: 1
 #  connection-timeout: 5000
 
