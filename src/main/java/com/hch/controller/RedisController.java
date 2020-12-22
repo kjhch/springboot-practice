@@ -1,12 +1,14 @@
 package com.hch.controller;
 
+import com.hch.pojo.ErrorEnum;
 import com.hch.pojo.response.CommonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.concurrent.TimeUnit;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 /**
  * @author hch
@@ -16,12 +18,16 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/redis")
 public class RedisController {
     @Autowired
-    StringRedisTemplate redisTemplate;
+    private JedisPool jedisPool;
 
     @GetMapping("/hello")
-    public CommonResponse<String> helloRedis(@RequestParam("value")String value){
-        redisTemplate.opsForValue().get("");
-        redisTemplate.opsForValue().set("sbp:hello", value, 100, TimeUnit.SECONDS);
-        return new CommonResponse<>();
+    public CommonResponse<String> helloRedis(@RequestParam("value") String value) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            String author = jedis.get("author");
+            return new CommonResponse<String>(ErrorEnum.SUCCESS).setData(author);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 }
