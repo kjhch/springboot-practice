@@ -5,6 +5,11 @@ spring:
   mvc:
     servlet:
       load-on-startup: 1
+  kafka:
+    producer:
+      bootstrap-servers: "localhost:9092"
+    consumer:
+      bootstrap-servers: "localhost:9092"
 #  datasource:
 #    url: jdbc:MySQL://hch-cloud:3306/test?characterEncoding=utf8&autoReconnect=true&&useSSL=false&&allowPublicKeyRetrieval=True
 #    username: root
@@ -16,6 +21,9 @@ spring:
 #      connection-timeout: 5000
 #      idle-timeout: 5000
 #    type: com.alibaba.druid.pool.DruidDataSource
+
+redis:
+  server: "localhost:6379"
 
 mybatis:
   configuration:
@@ -39,3 +47,7 @@ custom:
     age: 18
     birthDay: 2019/5/18
     male: true
+
+logging:
+  level:
+    com.hch: debug

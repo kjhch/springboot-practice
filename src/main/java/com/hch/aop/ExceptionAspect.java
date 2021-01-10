@@ -2,6 +2,7 @@ package com.hch.aop;
 
 import com.hch.pojo.ErrorEnum;
 import com.hch.pojo.response.CommonResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.Locale;
 
 @ControllerAdvice
+@Slf4j
 public class ExceptionAspect {
     @ExceptionHandler({IllegalArgumentException.class,
             HttpMessageNotReadableException.class,
@@ -22,6 +24,7 @@ public class ExceptionAspect {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public CommonResponse<String> handleIllegalArgsException(Exception e) {
+        log.debug("bad request", e);
         CommonResponse<String> response = new CommonResponse<>(ErrorEnum.CLIENT_ERROR);
         response.setData(e.getMessage());
         return response;

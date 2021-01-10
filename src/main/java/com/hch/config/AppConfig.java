@@ -6,6 +6,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -30,6 +31,7 @@ import javax.sql.DataSource;
  * @author hch
  */
 @Configuration
+@EnableKafka
 @EnableSwagger2
 @EnableConfigurationProperties(CustomProperties.class)
 @ImportResource(locations = "classpath:application-context.xml")
