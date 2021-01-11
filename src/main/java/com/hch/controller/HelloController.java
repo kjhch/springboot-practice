@@ -1,6 +1,7 @@
 package com.hch.controller;
 
 import com.hch.pojo.ErrorEnum;
+import com.hch.pojo.KafkaMsg;
 import com.hch.pojo.response.CommonResponse;
 import com.hch.config.CustomProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -71,4 +73,17 @@ public class HelloController {
         return new CommonResponse<>();
     }
 
+    @GetMapping(value = "/validation")
+    @ResponseBody
+    public CommonResponse<KafkaMsg> validation(@Validated KafkaMsg msg) {
+        log.debug("{}", msg);
+        return new CommonResponse<KafkaMsg>().setData(msg);
+    }
+
+    @PostMapping("/validation")
+    @ResponseBody
+    public CommonResponse<KafkaMsg> validation1(@Validated @RequestBody KafkaMsg msg) {
+        log.debug("{}", msg);
+        return new CommonResponse<KafkaMsg>().setData(msg);
+    }
 }

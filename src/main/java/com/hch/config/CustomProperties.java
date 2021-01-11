@@ -16,7 +16,7 @@ public class CustomProperties {
     public static class Person {
         private String name;
         private Integer age;
-        private Date birthDay;
+        private Date birthday;
         private boolean male;
 
         public String getName() {
@@ -35,12 +35,12 @@ public class CustomProperties {
             this.age = age;
         }
 
-        public Date getBirthDay() {
-            return birthDay;
+        public Date getBirthday() {
+            return birthday;
         }
 
-        public void setBirthDay(Date birthDay) {
-            this.birthDay = birthDay;
+        public void setBirthday(Date birthday) {
+            this.birthday = birthday;
         }
 
         public boolean isMale() {

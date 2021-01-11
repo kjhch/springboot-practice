@@ -8,8 +8,17 @@ spring:
   kafka:
     producer:
       bootstrap-servers: "localhost:9092"
+      value-serializer: "org.springframework.kafka.support.serializer.JsonSerializer"
     consumer:
       bootstrap-servers: "localhost:9092"
+      value-deserializer: "org.springframework.kafka.support.serializer.JsonDeserializer"
+      enable-auto-commit: false
+      properties:
+        spring.json.trusted.packages: "com.hch.pojo"
+    listener:
+      ack-mode: manual
+
+
 #  datasource:
 #    url: jdbc:MySQL://hch-cloud:3306/test?characterEncoding=utf8&autoReconnect=true&&useSSL=false&&allowPublicKeyRetrieval=True
 #    username: root
@@ -45,7 +54,7 @@ custom:
   author:
     name: "张三"
     age: 18
-    birthDay: 2019/5/18
+    birthday: 2019/5/18
     male: true
 
 logging:
