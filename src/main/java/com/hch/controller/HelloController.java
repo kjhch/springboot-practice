@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Optional;
@@ -21,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Controller
+@Validated
 // @RestController
 public class HelloController {
     @Autowired // 通过@Autowired来获取配置文件的配置bean
@@ -75,14 +78,14 @@ public class HelloController {
 
     @GetMapping(value = "/validation")
     @ResponseBody
-    public CommonResponse<KafkaMsg> validation(@Validated KafkaMsg msg) {
-        log.debug("{}", msg);
+    public CommonResponse<KafkaMsg> validation(@Valid KafkaMsg msg,@Min(5) Integer num) {
+        log.debug("{} {}", msg, num);
         return new CommonResponse<KafkaMsg>().setData(msg);
     }
 
     @PostMapping("/validation")
     @ResponseBody
-    public CommonResponse<KafkaMsg> validation1(@Validated @RequestBody KafkaMsg msg) {
+    public CommonResponse<KafkaMsg> validation1(@Valid @RequestBody KafkaMsg msg) {
         log.debug("{}", msg);
         return new CommonResponse<KafkaMsg>().setData(msg);
     }
