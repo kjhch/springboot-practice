@@ -4,6 +4,7 @@ import com.hch.pojo.ErrorEnum;
 import com.hch.pojo.KafkaMsg;
 import com.hch.pojo.response.CommonResponse;
 import com.hch.config.CustomProperties;
+import com.hch.service.HelloService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +29,8 @@ import java.util.concurrent.TimeUnit;
 public class HelloController {
     @Autowired // 通过@Autowired来获取配置文件的配置bean
     private CustomProperties customProperties;
+    @Autowired
+    private HelloService helloService;
 
     @Value("${custom.author.name}")  // 通过@Value来获取配置文件的配置
     private String name;
@@ -85,8 +88,10 @@ public class HelloController {
 
     @PostMapping("/validation")
     @ResponseBody
-    public CommonResponse<KafkaMsg> validation1(@Valid @RequestBody KafkaMsg msg) {
+    public CommonResponse<KafkaMsg> validation1(@RequestBody KafkaMsg msg) {
         log.debug("{}", msg);
+        // 通过service验证
+        helloService.valid(msg);
         return new CommonResponse<KafkaMsg>().setData(msg);
     }
 }

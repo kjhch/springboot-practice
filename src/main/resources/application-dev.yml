@@ -10,15 +10,21 @@ spring:
       bootstrap-servers: "localhost:9092"
       value-serializer: "org.springframework.kafka.support.serializer.JsonSerializer"
     consumer:
-      bootstrap-servers: "localhost:9092"
+#      bootstrap-servers: "localhost:9092"
       value-deserializer: "org.springframework.kafka.support.serializer.JsonDeserializer"
       enable-auto-commit: false
       properties:
         spring.json.trusted.packages: "com.hch.pojo"
     listener:
       ack-mode: manual
-
-
+  output:
+    ansi:
+      enabled: ALWAYS
+  datasource:
+    url: jdbc:h2:file:./local-test-h2;MODE=MYSQL
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
 #  datasource:
 #    url: jdbc:MySQL://hch-cloud:3306/test?characterEncoding=utf8&autoReconnect=true&&useSSL=false&&allowPublicKeyRetrieval=True
 #    username: root

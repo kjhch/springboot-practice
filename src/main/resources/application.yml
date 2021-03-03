@@ -48,3 +48,6 @@
 #    birthDay: 2019/5/18
 #    male: true
 
+spring:
+  profiles:
+    active: ${PROFILE:dev}
