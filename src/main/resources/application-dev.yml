@@ -1,4 +1,7 @@
 spring:
+  devtools:
+    restart:
+      enabled: true
   http:
     encoding:
       charset: UTF-8

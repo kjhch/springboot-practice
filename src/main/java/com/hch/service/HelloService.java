@@ -6,6 +6,7 @@
 package com.hch.service;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import com.hch.pojo.KafkaMsg;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ import org.springframework.validation.annotation.Validated;
 @Slf4j
 public class HelloService {
 
-    public void valid(@Valid KafkaMsg msg) {
+    public void valid(@Valid @NotNull(message = "cannot be null") KafkaMsg msg) {
         log.info("{}", msg);
     }
 

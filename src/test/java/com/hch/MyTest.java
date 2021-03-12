@@ -1,5 +1,12 @@
 package com.hch;
 
+import com.hch.excel.CustomCellWriteHandler;
+import com.hch.excel.CustomizeColumnWidth;
+import com.hch.excel.MyMergeStrategy;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -8,6 +15,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.security.cert.X509Certificate;
+
 import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -18,6 +26,12 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.*;
 import java.util.concurrent.*;
+
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.write.metadata.style.WriteCellStyle;
+import com.alibaba.excel.write.metadata.style.WriteFont;
+import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
+import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 
 import org.apache.commons.codec.binary.Hex;
 
@@ -71,7 +85,7 @@ public class MyTest {
         try (FileInputStream f3 = new FileInputStream("/tmp/test.txt");) {
             int i;
             while ((i = f3.read()) != -1) {
-                md.update((byte) i);
+                md.update((byte)i);
             }
         }
         byte[] digest = md.digest();
@@ -95,7 +109,7 @@ public class MyTest {
             Cipher cipher = Cipher.getInstance("RSA");
             cipher.init(Cipher.DECRYPT_MODE, publicKey);
             while ((i = f5.read()) != -1) {
-                cipher.update(new byte[]{(byte) i});
+                cipher.update(new byte[] {(byte)i});
             }
             byte[] bytes = cipher.doFinal();
             System.out.println(Base64.getEncoder().encodeToString(bytes) + "  " + bytes.length);
@@ -125,7 +139,7 @@ public class MyTest {
             PublicKey publicKey = kf.generatePublic(new X509EncodedKeySpec(publicKeyBytes));
             signature.initVerify(publicKey);
             while ((i = f3.read()) != -1) {
-                signature.update((byte) i);
+                signature.update((byte)i);
             }
             System.out.println(signature.verify(sigBytes));
 
@@ -218,11 +232,11 @@ public class MyTest {
         char[] sChars = s.toCharArray();
         char[] chars = new char[sChars.length];
         for (int i = 0; i < sChars.length; i++) {
-            chars[i] = (char) (sChars[i] ^ '8');
+            chars[i] = (char)(sChars[i] ^ '8');
         }
         System.out.println(new String(chars));
         for (int i = 0; i < chars.length; i++) {
-            chars[i] = (char) (chars[i] ^ '8');
+            chars[i] = (char)(chars[i] ^ '8');
         }
         System.out.println(new String(chars));
     }
@@ -240,21 +254,22 @@ public class MyTest {
 
     @Test
     public void testEncoding() throws UnsupportedEncodingException {
-        System.out.println(new String(new byte[]{(byte) 0b11100100, (byte) 0b10111000, (byte) 0b10101101}, "UTF-8"));
-        System.out.println(new String(new byte[]{(byte) 0b11010110, (byte) 0b11010000}, "GBK"));
-        System.out.println(new String(new byte[]{(byte) 0b11010110, (byte) 0b11010000}, "UTF-8"));
+        System.out.println(new String(new byte[] {(byte)0b11100100, (byte)0b10111000, (byte)0b10101101}, "UTF-8"));
+        System.out.println(new String(new byte[] {(byte)0b11010110, (byte)0b11010000}, "GBK"));
+        System.out.println(new String(new byte[] {(byte)0b11010110, (byte)0b11010000}, "UTF-8"));
 
         System.out.println(URLEncoder.encode("#不爱学习的灰灰", "UTF-8"));
     }
 
     @Test
     public void testHexEncoding() {
-        System.out.println(Hex.encodeHex(new byte[]{(byte) 0b11100100, (byte) 0b10111000, (byte) 0b10101101}));
+        System.out.println(Hex.encodeHex(new byte[] {(byte)0b11100100, (byte)0b10111000, (byte)0b10101101}));
     }
 
     @Test
     public void testBase64Encoding() {
-        System.out.println(Base64.getEncoder().encodeToString(new byte[]{(byte) 0b11100100, (byte) 0b10111000, (byte) 0b10101101}));
+        System.out.println(
+            Base64.getEncoder().encodeToString(new byte[] {(byte)0b11100100, (byte)0b10111000, (byte)0b10101101}));
 
     }
 
@@ -262,7 +277,7 @@ public class MyTest {
     public void testAli() {
         System.out.println(Math.round(11.5));
         System.out.println(Math.round(-11.5));
-        String s = (String) new Object();
+        String s = (String)new Object();
         System.out.println(s);
     }
 
@@ -311,7 +326,7 @@ public class MyTest {
     }
 
     @Test
-    public void testRSA(){
+    public void testRSA() {
 
     }
 
@@ -319,5 +334,97 @@ public class MyTest {
     public String toString() {
         System.out.println("to string");
         return super.toString();
+    }
+
+    @Test
+    public void testBoolean() {
+        Map<String, Integer> metricSubmitMap = new HashMap<>();
+        metricSubmitMap.put("a", 123);
+        metricSubmitMap.put("ab", 1);
+        System.out.println(metricSubmitMap.values().stream().reduce(Integer::sum).orElse(null));
+        //Boolean b = null;
+        //if (b) {
+        //    System.out.println(b);
+        //}
+    }
+
+    @Test
+    public void testEasyExcel() {
+        // rows
+        List<List<Object>> data = new LinkedList<>();
+        int col = 10;
+        for (int i = 0; i < 10; i++) {
+            List<Object> row = new ArrayList<>(col);
+            row.add("XXX中心" + i);
+            if (i <= 3) {
+                row.add(null);
+                row.add("30%");
+            } else {
+                row.add("南部");
+                row.add(10);
+            }
+            for (int j = 0; j < col - 3; j++) {
+                row.add(i % 2 == 0 ? "已反馈" : "未反馈");
+            }
+            row.add("测试很长的字符串测试很长的字符串测试很长的字符串标题30%");
+            data.add(row);
+        }
+
+        // heads
+        List<List<String>> heads = new LinkedList<>();
+        for (int i = 0; i < col; i++) {
+            List<String> head = new ArrayList<>(2);
+            head.add("监控报表");
+            if (i == col - 1) {
+                head.add("测试很长的字符串测试很长的字符串测试很长的字符串标题" + i);
+            } else {
+                head.add("标题" + i);
+            }
+
+            heads.add(head);
+        }
+
+        EasyExcel.write("/Users/hch/Desktop/test.xlsx")
+            //.registerWriteHandler(new LongestMatchColumnWidthStyleStrategy())
+            .registerWriteHandler(new MyMergeStrategy())
+            //.registerWriteHandler(getStyleStrategy())
+            .registerWriteHandler(new CustomizeColumnWidth())
+            //.registerWriteHandler(new CustomCellWriteHandler())
+            .sheet("监控报表")
+            .head(heads)
+            .doWrite(data);
+
+    }
+
+    private HorizontalCellStyleStrategy getStyleStrategy() {
+        // 头的策略
+        WriteCellStyle headWriteCellStyle = new WriteCellStyle();
+        // 设置对齐
+        //headWriteCellStyle.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        //// 背景色, 设置为白色，也是默认颜色
+        //headWriteCellStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+        //// 字体
+        //WriteFont headWriteFont = new WriteFont();
+        //headWriteFont.setFontHeightInPoints((short) 12);
+        //headWriteCellStyle.setWriteFont(headWriteFont);
+        // 内容的策略
+        WriteCellStyle contentWriteCellStyle = new WriteCellStyle();
+        // 字体策略
+        //WriteFont contentWriteFont = new WriteFont();
+        //contentWriteFont.setFontHeightInPoints((short) 12);
+        //contentWriteCellStyle.setWriteFont(contentWriteFont);
+        //设置 自动换行
+        //contentWriteCellStyle.setWrapped(true);
+        //设置 垂直居中
+        contentWriteCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        //设置 水平居中
+        contentWriteCellStyle.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        //设置边框样式
+        //contentWriteCellStyle.setBorderLeft(BorderStyle.THIN);
+        //contentWriteCellStyle.setBorderTop(BorderStyle.THIN);
+        //contentWriteCellStyle.setBorderRight(BorderStyle.THIN);
+        //contentWriteCellStyle.setBorderBottom(BorderStyle.THIN);
+        // 这个策略是 头是头的样式 内容是内容的样式 其他的策略可以自己实现
+        return new HorizontalCellStyleStrategy(headWriteCellStyle, contentWriteCellStyle);
     }
 }

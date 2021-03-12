@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
@@ -16,6 +17,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
+@Accessors(chain = true)
 public class KafkaMsg {
     @NotBlank(message = "name cannot be blank")
     private String name;
